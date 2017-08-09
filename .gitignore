@@ -1,0 +1,13 @@
+/build/
+/vendor/
+/composer.phar
+/composer.lock
+
+composer.phar
+composer.lock
+phpunit.xml
+
+.env
+.git
+*.log
+*.cache

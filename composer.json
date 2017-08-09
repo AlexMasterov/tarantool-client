@@ -1,0 +1,51 @@
+{
+  "name": "alexmasterov/tarantool-client",
+  "type": "library",
+  "description": "High performance and fully customizable client for Tarantool, and abstraction for computing with monads",
+  "keywords": ["tarantool", "nosql", "client", "Tarantool client", "computing", "monad"],
+  "homepage": "https://github.com/AlexMasterov/tarantool-client",
+  "license": "MIT",
+  "authors": [{
+    "name": "Alex Masterov",
+    "email": "alex.masterow@gmail.com"
+  }],
+  "config": {
+    "sort-packages": true
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "autoload": {
+    "files": [
+      "src/Client/functions.php",
+      "src/Connector/functions.php"
+    ],
+    "psr-4": {
+      "Tarantool\\": "src/"
+    },
+    "exclude-from-classmap": [
+      "/tests/"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tarantool\\Client\\Tests\\": "tests/Client/",
+      "Tarantool\\Computation\\Tests\\": "tests/Computation/",
+      "Tarantool\\Connector\\Tests\\": "tests/Connector/"
+    }
+  },
+  "require": {
+    "php": "7.1 - 7.3"
+  },
+  "require-dev": {
+    "rybakit/msgpack": "^0.2"
+  },
+  "suggest": {
+    "rybakit/msgpack": "For using PurePacker"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}

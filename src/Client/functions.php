@@ -7,7 +7,7 @@ namespace Tarantool\Client;
 function parse_greeting(string $greeting): ?array
 {
     $server = \substr($greeting, 0, 64);
-    $salt = \substr(\base64_decode(\substr($greeting, 64, 44), true), 0, 20);
+    $salt = \substr(\base64_decode(\substr($greeting, 64, 44), false), 0, 20);
 
     if (isset($server[63], $salt[19])) {
         return [\trim($server), $salt];

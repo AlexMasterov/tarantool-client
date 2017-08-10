@@ -5,13 +5,10 @@ namespace Tarantool\Connector\Tests\Unit\Connection;
 
 use DateInterval;
 use PHPUnit\Framework\TestCase;
+use Tarantool\Connector\Connection\AutomaticConnection;
 use Tarantool\Connector\Tests\Stub\{
     FakeConnection,
-    State
-};
-use Tarantool\Connector\{
-    Connection,
-    Connection\AutomaticConnection
+    SpyLogger
 };
 
 final class AutomaticConnectionTest extends TestCase
@@ -20,28 +17,41 @@ final class AutomaticConnectionTest extends TestCase
     public function it_is_automatic_connect()
     {
         // Stub
-        $decorated = $this->newFakeConnection();
-        $connection = $this->newConnection(
+        $decorated = new FakeConnection();
+        $connection = new AutomaticConnection(
+            $decorated,
+            new DateInterval('PT3S')
+        );
+
+        // Execute
+        $connection->send('data');
+
+        // Verify
+        self::assertGreaterThan(FakeConnection::CLOSED, $decorated->state());
+    }
+
+    /** @test */
+    public function it_reconnects_when_time_passed()
+    {
+        // Stub
+        $decorated = new FakeConnection();
+        $connection = new AutomaticConnection(
             $decorated,
             new DateInterval('PT0S')
         );
 
+        // Spy
+        $logger = new SpyLogger();
+        $logger->logSignal($decorated, ['open', 'close', 'receive']);
+
         // Execute
-        $connection->listen('open', function () {
-        });
-        $connection->send('data');
+        $connection->open();
+        $connection->receive(42);
 
         // Verify
-        self::assertSame(State::CONNECTED, $decorated->state());
-    }
-
-    private function newConnection(...$arguments): Connection
-    {
-        return new AutomaticConnection(...$arguments);
-    }
-
-    private function newFakeConnection(...$arguments): Connection
-    {
-        return new FakeConnection(...$arguments);
+        self::assertSame(
+            ['open', 'close', 'open', 'receive'],
+            $logger->journal()
+        );
     }
 }

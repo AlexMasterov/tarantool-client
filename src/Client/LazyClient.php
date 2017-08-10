@@ -25,7 +25,7 @@ final class LazyClient implements Client
 
     public function request(Command $command): Response
     {
-        return $this->getClient()->sendRequest($command);
+        return $this->getClient()->request($command);
     }
 
     private function getClient(): Client

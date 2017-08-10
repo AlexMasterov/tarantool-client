@@ -4,43 +4,29 @@ declare(strict_types=1);
 namespace Tarantool\Connector\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Tarantool\Connector\Automatic;
 use Tarantool\Connector\Tests\Stub\{
-    CanLoggerSignal,
     FakeConnection,
     FakeMessagePack,
-    FakeRequest
-};
-use Tarantool\Connector\{
-    Automatic,
-    Connection,
-    MessagePack,
-    Sensor,
-    Signal\Proxy
+    FakeRequest,
+    SpyLogger
 };
 
 final class AutomaticTest extends TestCase
 {
-    use CanLoggerSignal;
-
     /** @test */
-    public function it_is_fine_communicate()
+    public function it_communicate_successful()
     {
-        $signals = [
-            'connect',
-            'greeting',
-            'disconnect',
-        ];
-
         // Stub
-        $connection = $this->newFakeConnection();
+        $connection = new FakeConnection();
         $connector = new Automatic(
             $connection,
-            $this->newFakeMessagePack()
+            new FakeMessagePack()
         );
 
         // Spy
-        $logger = $this->logger();
-        $this->logSignal($logger, $connector, $signals);
+        $logger = new SpyLogger();
+        $logger->logSignal($connector, ['connect', 'greeting', 'disconnect']);
 
         // Execute
         $connection->open();
@@ -48,16 +34,9 @@ final class AutomaticTest extends TestCase
         $connector->disconnect();
 
         // Verify
-        self::assertSame($signals, $logger->journal());
-    }
-
-    private function newFakeConnection(...$arguments): Connection
-    {
-        return new FakeConnection(...$arguments);
-    }
-
-    private function newFakeMessagePack(...$arguments): MessagePack
-    {
-        return new FakeMessagePack(...$arguments);
+        self::assertSame(
+            ['connect', 'greeting', 'disconnect'],
+            $logger->journal()
+        );
     }
 }

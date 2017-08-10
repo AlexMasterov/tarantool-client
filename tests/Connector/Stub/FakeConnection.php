@@ -5,7 +5,6 @@ namespace Tarantool\Connector\Tests\Stub;
 
 use Closure;
 use RuntimeException;
-use Tarantool\Connector\Tests\Stub\State;
 use Tarantool\Connector\{
     Connection,
     Sensor\CanListen,
@@ -16,8 +15,13 @@ final class FakeConnection implements Connection
 {
     use CanListen;
 
+    public const CLOSED = 0;
+    public const CONNECTED = 1;
+    public const DATA_SENT = 2;
+    public const DATA_RECEIVED = 3;
+
     /** @var int */
-    private $state = State::NONE;
+    private $state = self::CLOSED;
 
     /** @var array */
     private $buffer = [];
@@ -30,17 +34,17 @@ final class FakeConnection implements Connection
 
     public function open(): void
     {
-        if ($this->state >= State::CONNECTED) {
+        if ($this->state >= self::CONNECTED) {
             throw new RuntimeException('Cannot connect while already connected');
         }
 
-        $this->setState(State::CONNECTED);
+        $this->state = self::CONNECTED;
         $this->signal->beep('open');
     }
 
     public function close(): void
     {
-        if ($this->state === State::NONE) {
+        if ($this->state === self::CLOSED) {
             throw new RuntimeException('Cannot disconnect while not connected');
         }
 
@@ -50,18 +54,19 @@ final class FakeConnection implements Connection
 
     public function send(string $data): int
     {
-        if ($this->state === State::NONE) {
+        if ($this->state === self::CLOSED) {
             throw new RuntimeException('Cannot communicate while not connected');
         }
 
+        $this->state = self::DATA_SENT;
         $this->signal->beep('send', $data);
 
-        return 1;
+        return \strlen($data);
     }
 
     public function receive(int $bytes): string
     {
-        $this->setState(State::DATA_RECEIVED);
+        $this->state = self::DATA_RECEIVED;
         $this->signal->beep('receive', $bytes);
 
         return 'ce000000088200000100810102';
@@ -77,14 +82,9 @@ final class FakeConnection implements Connection
         return $this->state;
     }
 
-    private function setState(int $state): void
-    {
-        $this->state = $state;
-    }
-
     private function reset(): void
     {
         $this->buffer = [];
-        $this->setState(State::NONE);
+        $this->state = self::CLOSED;
     }
 }

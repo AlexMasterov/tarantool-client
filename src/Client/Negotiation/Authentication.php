@@ -28,9 +28,9 @@ final class Authentication implements Negotiation
 
     public function negotiate(Client $client): void
     {
-        $salt = $client->getSession()->salt();
+        $session = $client->getSession();
 
-        $tuple = ['chap-sha1', chap_sha1($this->password, $salt)];
+        $tuple = ['chap-sha1', chap_sha1($this->password, $session->salt())];
 
         $command = new Authenticate($tuple, $this->username);
 

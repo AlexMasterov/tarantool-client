@@ -5,7 +5,7 @@ namespace Tarantool\Connector\Signal;
 
 trait CanBeep
 {
-    /** @var array */
+    /** @var iterable */
     private $listeners = [];
 
     public function beep(string $name, $result = null): void

@@ -7,7 +7,7 @@ use Closure;
 
 trait CanAddListener
 {
-    /** @var array */
+    /** @var iterable */
     private $listeners = [];
 
     public function addlistener(string $name, Closure $callback): void

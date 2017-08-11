@@ -15,16 +15,16 @@ final class Proxy implements Signal
     use CanBeep;
 
     /** @var Sensor */
-    private $proxy;
+    private $proxiedSensor;
 
-    /** @var array */
+    /** @var iterable */
     private $listeners = [];
 
     public function __construct(
-        Sensor $proxy,
+        Sensor $proxiedSensor,
         iterable $listeners = []
     ) {
-        $this->proxy = $proxy;
+        $this->proxiedSensor = $proxiedSensor;
         $this->listeners = $listeners;
     }
 
@@ -34,6 +34,6 @@ final class Proxy implements Signal
             $this->listeners[$name][] = $callback;
         }
 
-        $this->proxy->listen($name, $callback);
+        $this->proxiedSensor->listen($name, $callback);
     }
 }

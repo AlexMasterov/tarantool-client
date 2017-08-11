@@ -15,7 +15,7 @@ final class Standart implements Signal
     use CanAddListener;
     use CanBeep;
 
-    /** @var array */
+    /** @var iterable */
     private $listeners = [];
 
     public function __construct(iterable $listeners = [])

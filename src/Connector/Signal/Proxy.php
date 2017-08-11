@@ -17,9 +17,6 @@ final class Proxy implements Signal
     /** @var Sensor */
     private $proxiedSensor;
 
-    /** @var iterable */
-    private $listeners = [];
-
     public function __construct(
         Sensor $proxiedSensor,
         iterable $listeners = []

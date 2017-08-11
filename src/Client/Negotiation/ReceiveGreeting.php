@@ -7,7 +7,7 @@ use Tarantool\Client;
 use Tarantool\Client\{
     Negotiation,
     Negotiation\ParsedGreeting,
-    Session\SingleSession
+    Session\Single
 };
 
 final class ReceiveGreeting implements Negotiation
@@ -28,6 +28,6 @@ final class ReceiveGreeting implements Negotiation
 
         $parsedGreeting = new ParsedGreeting($this->greeting);
 
-        $client->createSession(new SingleSession($parsedGreeting));
+        $client->createSession(new Single($parsedGreeting));
     }
 }

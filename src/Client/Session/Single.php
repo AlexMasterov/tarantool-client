@@ -9,7 +9,7 @@ use Tarantool\Client\{
     Session
 };
 
-final class SingleSession implements Session
+final class Single implements Session
 {
     /** @var DateTimeImmutable */
     private $createdAt;

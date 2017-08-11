@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Tarantool\Client\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Client\Session\SingleSession;
+use Tarantool\Client\Session\Single;
 use Tarantool\Client\{
     ClientException,
     Negotiation\Authentication,
@@ -36,7 +36,7 @@ final class AuthenticationTest extends TestCase
 
         // Execute
         $client = new Simple($connector);
-        $client->createSession(new SingleSession($parsedGreeting));
+        $client->createSession(new Single($parsedGreeting));
 
         $authenticate = new Authentication('username', 'password');
         $authenticate->negotiate($client);

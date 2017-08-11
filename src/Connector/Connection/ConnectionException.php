@@ -6,7 +6,7 @@ namespace Tarantool\Connector\Connection;
 use RuntimeException;
 use Tarantool\TarantoolException;
 
-class ConnectionException extends RuntimeException implements TarantoolException
+final class ConnectionException extends RuntimeException implements TarantoolException
 {
     public static function unableConnect(string $host, string $message, int $code): ConnectionException
     {

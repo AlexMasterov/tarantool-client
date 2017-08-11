@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tarantool\Connector\Connection;
+namespace Tarantool\Connector\Socket;
 
 trait CanCopy
 {

@@ -6,13 +6,15 @@ namespace Tarantool;
 use DateInterval;
 use InvalidArgumentException;
 use Tarantool\Connector;
+use Tarantool\Connector\Socket\{
+    StreamFactory,
+    StreamOptions
+};
 use Tarantool\Connector\{
     Automatic,
     Connection,
     Connection\AutomaticConnection,
-    Connection\SocketOptions,
-    Connection\TcpSocket,
-    Connection\UnixSocket,
+    Connection\StreamSocket,
     MessagePack\PurePacker,
     RetryIfFailedConnector
 };
@@ -41,48 +43,27 @@ final class ConnectorFactory
             throw new InvalidArgumentException('Scheme and host are required');
         }
 
+        if (!\in_array($components['scheme'], ['tcp', 'unix'])) {
+            throw new InvalidArgumentException('Use tcp:// or unix://');
+        }
+
+        ['scheme' => $scheme, 'host' => $host] = $components;
+
+        if ('tcp' === $scheme) {
+            $port = $components['port'] ?? 3301;
+            $host = "{$host}:{$port}";
+        }
+
+        $url = "{$scheme}://{$host}";
         static $query = [];
 
         if (isset($components['query'])) {
             \parse_str($components['query'], $query);
         }
 
-        $timeout = (float) ($query['timeout'] ?? 3);
-        $options = new SocketOptions($timeout);
+        $options = self::streamOptions($query);
 
-        if (isset($query['rwTimeout'])) {
-            $rwTimeout = (int) $query['rwTimeout'];
-            $options = $options->withReadWriteTimeoutSeconds($rwTimeout);
-        }
-
-        if (isset($query['rwTimeoutMs'])) {
-            $rwTimeoutMs = (int) $query['rwTimeoutMs'];
-            $options = $options->withReadWriteTimeoutMicroseconds($rwTimeoutMs);
-        }
-
-        if (isset($query['noDelay'])) {
-            $options = $options->withNoDelay($query['noDelay']);
-        }
-
-        switch ($components['scheme']) {
-            case 'tcp':
-                $connection = new TcpSocket(
-                    $components['host'],
-                    $components['port'] ?? 3301,
-                    $options
-                );
-                break;
-            case 'unix':
-                $connection = new UnixSocket(
-                    $components['host'],
-                    $options
-                );
-                break;
-            default:
-                throw new InvalidArgumentException(
-                    'Use tcp:// or unix://'
-                );
-        }
+        $connection = new StreamSocket($url, new StreamFactory($options));
 
         $factory = new self($connection);
 
@@ -123,5 +104,31 @@ final class ConnectorFactory
         $clone->reconnectMax = $retryCount;
 
         return $clone;
+    }
+
+    private static function streamOptions(array $query = []): StreamOptions
+    {
+        $timeout = (float) ($query['timeout'] ?? 3);
+        $options = new StreamOptions($timeout);
+
+        if (empty($query)) {
+            return $options;
+        }
+
+        if (isset($query['rwTimeout'])) {
+            $rwTimeout = (int) $query['rwTimeout'];
+            $options = $options->withReadWriteTimeout($rwTimeout);
+        }
+
+        if (isset($query['rwTimeoutMs'])) {
+            $rwTimeoutMs = (int) $query['rwTimeoutMs'];
+            $options = $options->withReadWriteTimeoutMs($rwTimeoutMs);
+        }
+
+        if (isset($query['noDelay'])) {
+            $options = $options->withNoDelay($query['noDelay']);
+        }
+
+        return $options;
     }
 }

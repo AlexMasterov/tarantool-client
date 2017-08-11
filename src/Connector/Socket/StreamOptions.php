@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Tarantool\Connector\Connection;
+namespace Tarantool\Connector\Socket;
 
-use Tarantool\Connector\Connection\CanCopy;
+use Tarantool\Connector\Socket\CanCopy;
 
-final class SocketOptions
+final class StreamOptions
 {
     use CanCopy;
 
@@ -16,10 +16,10 @@ final class SocketOptions
     private $timeout;
 
     /** @var int */
-    private $readWriteTimeoutSeconds = 10;
+    private $readWriteTimeout = 10;
 
     /** @var int */
-    private $readWriteTimeoutMicroseconds = 0;
+    private $readWriteTimeoutMs = 0;
 
     /** @var int */
     private $noDelay = 2;
@@ -58,29 +58,29 @@ final class SocketOptions
         return $this->timeout;
     }
 
-    public function withReadWriteTimeoutSeconds(int $timeoutSeconds): self
+    public function withReadWriteTimeout(int $timeout): self
     {
-        return $this->copy('readWriteTimeoutSeconds', $timeoutSeconds);
+        return $this->copy('readWriteTimeoutSeconds', $timeout);
     }
 
-    public function readWriteTimeoutSeconds(): int
+    public function readWriteTimeout(): int
     {
-        return $this->readWriteTimeoutSeconds;
+        return $this->readWriteTimeout;
     }
 
-    public function withReadWriteTimeoutMicroseconds(int $timeoutMicroseconds): self
+    public function withReadWriteTimeoutMs(int $timeoutMs): self
     {
-        return $this->copy('readWriteTimeoutMicroseconds', $timeoutMicroseconds);
+        return $this->copy('readWriteTimeoutMs', $timeoutMs);
     }
 
-    public function readWriteTimeoutMicroseconds(): int
+    public function readWriteTimeoutMs(): int
     {
-        return $this->readWriteTimeoutMicroseconds;
+        return $this->readWriteTimeoutMs;
     }
 
-    public function withNoDelay(int $delayMicroseconds): self
+    public function withNoDelay(int $delayMs): self
     {
-        return $this->copy('noDelay', $delayMicroseconds);
+        return $this->copy('noDelay', $delayMs);
     }
 
     public function noDelay(): ?int

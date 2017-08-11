@@ -7,7 +7,7 @@ use Tarantool\Client\Negotiation;
 
 trait CanAddNegotiator
 {
-    /** @var array */
+    /** @var iterable */
     private $negotiators = [];
 
     public function addNegotiator(Negotiation $negotiation): void

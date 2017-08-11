@@ -15,7 +15,7 @@ final class LazyClient implements Client
 {
     use CanDecoratedSession;
 
-    /** @param Closure */
+    /** @var Closure */
     private $closure;
 
     public function __construct(Closure $closure)

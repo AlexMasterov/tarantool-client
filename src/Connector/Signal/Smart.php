@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Tarantool\Connector\Signal;
 
-use Closure;
 use Tarantool\Connector\{
     Signal,
     Signal\CanAddListener,

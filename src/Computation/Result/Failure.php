@@ -12,7 +12,7 @@ use Tarantool\{
 final class Failure extends Result
 {
     /** @var ComputationException */
-    protected $exception = null;
+    protected $exception;
 
     public function bind(callable $fn): Computation
     {

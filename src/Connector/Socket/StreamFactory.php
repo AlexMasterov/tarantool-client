@@ -8,6 +8,7 @@ use Tarantool\Connector\{
     Socket\SocketException,
     Socket\StreamOptions
 };
+use function Tarantool\Connector\socket_set_nodelay;
 
 final class StreamFactory implements SocketFactory
 {
@@ -35,16 +36,10 @@ final class StreamFactory implements SocketFactory
             throw SocketException::unableConnect($url, $errorMessage, $errorCode);
         }
 
-        \stream_set_timeout(
-            $stream,
-            $options->readWriteTimeout(),
-            $options->readWriteTimeoutMs()
-        );
+        \stream_set_timeout($stream, $options->readWriteTimeout(), $options->readWriteTimeoutMs());
 
-        $noDelay = $this->options->noDelay();
-        if (is_int($noDelay) && \function_exists('socket_import_stream')) {
-            $socket = \socket_import_stream($stream);
-            \socket_set_option($socket, \SOL_TCP, \TCP_NODELAY, $noDelay);
+        if ($options->hasNoDelay()) {
+            socket_set_nodelay($stream, $options->noDelay());
         }
 
         return $stream;

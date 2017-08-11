@@ -87,4 +87,9 @@ final class StreamOptions
     {
         return $this->noDelay;
     }
+
+    public function hasNoDelay(): bool
+    {
+        return isset($this->noDelay);
+    }
 }

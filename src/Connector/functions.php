@@ -14,3 +14,11 @@ function unpack_length(string $data): int
 
     return $length;
 }
+
+function socket_set_nodelay($stream, int $noDelayMs): void
+{
+    if (\function_exists('socket_import_stream')) {
+        $socket = \socket_import_stream($stream);
+        \socket_set_option($socket, \SOL_TCP, \TCP_NODELAY, $noDelayMs);
+    }
+}

@@ -44,6 +44,7 @@ final class StreamOptionsTest extends TestCase
         self::assertSame($rwTimeout, $options->readWriteTimeout());
         self::assertSame($rwTimeoutMs, $options->readWriteTimeoutMs());
         self::assertSame($noDelay, $options->noDelay());
+        self::assertTrue($options->hasNoDelay());
     }
 
     /**

@@ -22,10 +22,12 @@ final class ReceiveGreeting implements Negotiation
 
     public function negotiate(Client $client): void
     {
-        if (false === $client->hasSession()) {
-            $parsedGreeting = new ParsedGreeting($this->greeting);
-
-            $client->createSession(new SingleSession($parsedGreeting));
+        if ($client->hasSession()) {
+            return;
         }
+
+        $parsedGreeting = new ParsedGreeting($this->greeting);
+
+        $client->createSession(new SingleSession($parsedGreeting));
     }
 }

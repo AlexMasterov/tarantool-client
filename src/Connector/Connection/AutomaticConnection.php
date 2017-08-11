@@ -14,17 +14,17 @@ final class AutomaticConnection implements Connection
 {
     use CanDecoratedListen;
 
-    /** @var Connection */
-    private $decoratedConnection;
-
-    /** @var DateInterval */
-    private $interval;
-
     /** @var bool */
     private $connecting = false;
 
     /** @var DateTimeImmutable|null */
     private $connectedAt = null;
+
+    /** @var Connection */
+    private $decoratedConnection;
+
+    /** @var DateInterval */
+    private $interval;
 
     public function __construct(
         Connection $decoratedConnection,
@@ -36,14 +36,16 @@ final class AutomaticConnection implements Connection
 
     public function open(): void
     {
-        if (false === $this->connecting) {
-            try {
-                $this->connecting = true;
-                $this->decoratedConnection->open();
-                $this->connectedAt = new DateTimeImmutable('now');
-            } finally {
-                $this->connecting = false;
-            }
+        if ($this->connecting) {
+            return;
+        }
+
+        try {
+            $this->connecting = true;
+            $this->decoratedConnection->open();
+            $this->connectedAt = new DateTimeImmutable('now');
+        } finally {
+            $this->connecting = false;
         }
     }
 
@@ -71,10 +73,11 @@ final class AutomaticConnection implements Connection
     {
         $this->connectedAt ?? $this->open();
 
-        if (
-            $this->connecting === false &&
-            $this->connectedAt->add($this->interval) < new DateTimeImmutable('now')
-        ) {
+        if ($this->connecting) {
+            return;
+        }
+
+        if ($this->connectedAt->add($this->interval) < new DateTimeImmutable('now')) {
             $this->close();
             $this->open();
         }

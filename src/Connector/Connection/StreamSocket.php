@@ -90,19 +90,19 @@ final class StreamSocket implements Connection
         return $data;
     }
 
+    private function verifyConnection(): void
+    {
+        if (null === $this->stream) {
+            throw ConnectionException::cannotCommunicate();
+        }
+    }
+
     private function verifyAlive(): void
     {
         ['timed_out' => $timeout] = \stream_get_meta_data($this->stream);
 
         if ($timeout) {
             throw ConnectionException::timeout();
-        }
-    }
-
-    private function verifyConnection(): void
-    {
-        if (null === $this->stream) {
-            throw ConnectionException::cannotCommunicate();
         }
     }
 }

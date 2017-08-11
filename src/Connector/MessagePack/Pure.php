@@ -15,7 +15,7 @@ use Tarantool\Connector\{
 };
 use function Tarantool\Connector\pack_length;
 
-final class PurePacker implements MessagePack
+final class Pure implements MessagePack
 {
     use CanMemoizePack;
 

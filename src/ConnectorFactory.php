@@ -15,7 +15,7 @@ use Tarantool\Connector\{
     Connection,
     Connection\AutomaticConnection,
     Connection\StreamSocket,
-    MessagePack\PurePacker,
+    MessagePack\Pure,
     RetryIfFailedConnector
 };
 
@@ -85,7 +85,7 @@ final class ConnectorFactory
                 $this->connection,
                 new DateInterval($this->reconnectAfter)
             ),
-            new PurePacker()
+            new Pure()
         );
 
         if ($this->reconnectMax > 0) {

@@ -7,32 +7,32 @@ use PHPUnit\Framework\TestCase;
 use Tarantool\Connector\Tests\Stub\FakeRequest;
 use Tarantool\Connector\{
     MessagePack\MessagePackException,
-    MessagePack\PurePacker,
+    MessagePack\Pure,
     Protocol\Constants as Protocol
 };
 
 /**
  * @link https://github.com/tarantool-php/client/blob/master/tests/Unit/Packer/PackerTest.php
  */
-final class PurePackerTest extends TestCase
+final class PureTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider packData
+     * @dataProvider packedData
      */
-    public function it_valid_pack_request($header, $body, $expectedHexResult)
+    public function it_packs_the_data_correctly($header, $body, $expectedHexResult)
     {
         // Stub
-        $request = $this->request($header, $body);
+        $request = new FakeRequest($header, $body);
 
         // Execute
-        $data = $this->packer()->pack($request);
+        $data = (new Pure)->pack($request);
 
         // Verify
         $this->assertSame($expectedHexResult, \bin2hex($data));
     }
 
-    public function packData()
+    public function packedData()
     {
         return [
             [
@@ -104,12 +104,12 @@ final class PurePackerTest extends TestCase
 
     /**
      * @test
-     * @dataProvider unpackData
+     * @dataProvider unpackedData
      */
-    public function it_valid_unpack_data($hexData, $expectedData, $expectedSync)
+    public function it_unpacks_data_correctly($hexData, $expectedData, $expectedSync)
     {
         // Execute
-        [$header, $body] = $this->packer()
+        [$header, $body] = (new Pure)
             ->unpack(\hex2bin($hexData));
 
         // Verify
@@ -117,7 +117,7 @@ final class PurePackerTest extends TestCase
         $this->assertSame($expectedData, $body[Protocol::DATA] ?? null);
     }
 
-    public function unpackData()
+    public function unpackedData()
     {
         return [
             'ping()' => [
@@ -140,33 +140,23 @@ final class PurePackerTest extends TestCase
 
     /**
      * @test
-     * @dataProvider badUnpackData
+     * @dataProvider badUnpackedData
      */
-    public function it_throw_exception_on_bad_unpack_data($data)
+    public function it_throw_exception_on_bad_unpacked($data)
     {
         // Verify
         self::expectException(MessagePackException::class);
         self::expectExceptionCode(MessagePackException::UNABLE_UNPACK);
 
         // Execute
-        $this->packer()->unpack($data);
+        (new Pure)->unpack($data);
     }
 
-    public function badUnpackData()
+    public function badUnpackedData()
     {
         return [
             ["\0"],
             ["\n"],
         ];
-    }
-
-    private function packer(...$arguments): PurePacker
-    {
-        return new PurePacker(...$arguments);
-    }
-
-    private function request(...$arguments): FakeRequest
-    {
-        return new FakeRequest(...$arguments);
     }
 }

@@ -16,15 +16,15 @@ final class StreamOptions
     private $timeout;
 
     /** @var int */
-    private $readWriteTimeout = 10;
+    private $readWriteTimeout = 3;
 
     /** @var int */
     private $readWriteTimeoutMs = 0;
 
-    /** @var int */
-    private $noDelay = 2;
+    /** @var int|null */
+    private $noDelay = null;
 
-    public function __construct(float $timeout = 10.0)
+    public function __construct(float $timeout = 3.0)
     {
         $this->timeout = $timeout;
     }
@@ -60,7 +60,7 @@ final class StreamOptions
 
     public function withReadWriteTimeout(int $timeout): self
     {
-        return $this->copy('readWriteTimeoutSeconds', $timeout);
+        return $this->copy('readWriteTimeout', $timeout);
     }
 
     public function readWriteTimeout(): int

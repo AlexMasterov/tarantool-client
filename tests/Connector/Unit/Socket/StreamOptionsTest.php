@@ -9,10 +9,10 @@ use Tarantool\Connector\Socket\StreamOptions;
 final class StreamOptionsTest extends TestCase
 {
     /** @test */
-    public function it_is_immutability()
+    public function it_is_immutable()
     {
         // Stub
-        $options = $this->streamOptions();
+        $options = new StreamOptions();
 
         // Verify
         $this->assertNotSame($options, $options->withAsync());
@@ -24,7 +24,7 @@ final class StreamOptionsTest extends TestCase
     }
 
     /** @test */
-    public function it_valid_configure()
+    public function it_is_configured_correctly()
     {
         // Stub
         $timeout = 3.0;
@@ -33,7 +33,7 @@ final class StreamOptionsTest extends TestCase
         $noDelay = 200;
 
         // Execute
-        $options = $this->streamOptions()
+        $options = (new StreamOptions())
             ->withTimeout($timeout)
             ->withReadWriteTimeout($rwTimeout)
             ->withReadWriteTimeoutMs($rwTimeoutMs)
@@ -50,10 +50,10 @@ final class StreamOptionsTest extends TestCase
      * @test
      * @dataProvider flagsData
      */
-    public function it_valid_configure_flags(array $methods, int $expected)
+    public function it_configures_flags_correctly(array $methods, int $expected)
     {
         // Stub
-        $options = $this->streamOptions();
+        $options = new StreamOptions();
 
         // Execute
         foreach ($methods as $method) {
@@ -86,10 +86,5 @@ final class StreamOptionsTest extends TestCase
                 $default | STREAM_CLIENT_ASYNC_CONNECT | STREAM_CLIENT_PERSISTENT,
             ],
         ];
-    }
-
-    private function streamOptions(): StreamOptions
-    {
-        return new StreamOptions();
     }
 }

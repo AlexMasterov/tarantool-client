@@ -4,22 +4,22 @@ declare(strict_types=1);
 namespace Tarantool\Connector\Tests\Unit\Connection;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Connector\Connection\SocketOptions;
+use Tarantool\Connector\Socket\StreamOptions;
 
-final class SocketOptionsTest extends TestCase
+final class StreamOptionsTest extends TestCase
 {
     /** @test */
     public function it_is_immutability()
     {
         // Stub
-        $options = $this->socketOptions();
+        $options = $this->streamOptions();
 
         // Verify
         $this->assertNotSame($options, $options->withAsync());
         $this->assertNotSame($options, $options->withPersistent());
         $this->assertNotSame($options, $options->withTimeout(10));
-        $this->assertNotSame($options, $options->withReadWriteTimeoutSeconds(3));
-        $this->assertNotSame($options, $options->withReadWriteTimeoutMicroseconds(200));
+        $this->assertNotSame($options, $options->withReadWriteTimeout(3));
+        $this->assertNotSame($options, $options->withReadWriteTimeoutMs(200));
         $this->assertNotSame($options, $options->withNoDelay(100));
     }
 
@@ -28,21 +28,21 @@ final class SocketOptionsTest extends TestCase
     {
         // Stub
         $timeout = 3.0;
-        $rwTimeoutSeconds = 10;
-        $rwTimeoutMicroseconds = (int) (0.2 * 10e6);
+        $rwTimeout = 10;
+        $rwTimeoutMs = (int) (0.2 * 10e6);
         $noDelay = 200;
 
         // Execute
-        $options = $this->socketOptions()
+        $options = $this->streamOptions()
             ->withTimeout($timeout)
-            ->withReadWriteTimeoutSeconds($rwTimeoutSeconds)
-            ->withReadWriteTimeoutMicroseconds($rwTimeoutMicroseconds)
+            ->withReadWriteTimeout($rwTimeout)
+            ->withReadWriteTimeoutMs($rwTimeoutMs)
             ->withNoDelay($noDelay);
 
         // Verify
         self::assertSame($timeout, $options->timeout());
-        self::assertSame($rwTimeoutSeconds, $options->readWriteTimeoutSeconds());
-        self::assertSame($rwTimeoutMicroseconds, $options->readWriteTimeoutMicroseconds());
+        self::assertSame($rwTimeout, $options->readWriteTimeout());
+        self::assertSame($rwTimeoutMs, $options->readWriteTimeoutMs());
         self::assertSame($noDelay, $options->noDelay());
     }
 
@@ -53,7 +53,7 @@ final class SocketOptionsTest extends TestCase
     public function it_valid_configure_flags(array $methods, int $expected)
     {
         // Stub
-        $options = $this->socketOptions();
+        $options = $this->streamOptions();
 
         // Execute
         foreach ($methods as $method) {
@@ -88,8 +88,8 @@ final class SocketOptionsTest extends TestCase
         ];
     }
 
-    private function socketOptions(): SocketOptions
+    private function streamOptions(): StreamOptions
     {
-        return new SocketOptions();
+        return new StreamOptions();
     }
 }

@@ -3,27 +3,55 @@ declare(strict_types=1);
 
 namespace Tarantool\Connector\Connection;
 
-use Closure;
 use Tarantool\Connector\{
     Connection,
-    Connection\ConnectionException
+    Connection\ConnectionException,
+    Sensor\CanListen,
+    Signal,
+    Signal\Standart,
+    SocketFactory
 };
 
-abstract class AbstractConnection implements Connection
+final class StreamSocket implements Connection
 {
-    /** @var resource|null */
-    protected $stream = null;
+    use CanListen;
 
-    final public function __destruct()
+    /** @var resource|null */
+    private $stream = null;
+
+    /** @var string */
+    private $url;
+
+    /** @var SocketFactory */
+    private $factory;
+
+    /** @var Signal */
+    private $signal;
+
+    public function __construct(
+        string $url,
+        SocketFactory $factory,
+        Signal $signal = null
+    ) {
+        $this->url = $url;
+        $this->factory = $factory;
+        $this->signal = $signal ?? new Standart();
+    }
+
+    public function __destruct()
     {
         $this->close();
     }
 
-    abstract public function listen(string $name, Closure $callback): void;
+    public function open(): void
+    {
+        if (null === $this->stream) {
+            $this->stream = $this->factory->create($this->url);
+            $this->signal->beep('open');
+        }
+    }
 
-    abstract public function open(): void;
-
-    final public function close(): void
+    public function close(): void
     {
         if (null !== $this->stream) {
             $stream = $this->stream;
@@ -32,7 +60,7 @@ abstract class AbstractConnection implements Connection
         }
     }
 
-    final public function send(string $data): int
+    public function send(string $data): int
     {
         $this->verifyConnection();
 
@@ -47,7 +75,7 @@ abstract class AbstractConnection implements Connection
         return $bytesWritten;
     }
 
-    final public function receive(int $bytes): string
+    public function receive(int $bytes): string
     {
         $this->verifyConnection();
 

@@ -8,8 +8,11 @@ use Tarantool\TarantoolException;
 
 final class SocketException extends RuntimeException implements TarantoolException
 {
-    public static function unableConnect(string $host, string $message, int $code): SocketException
+    public static function unableConnect(string $target, string $message, int $code): SocketException
     {
-        return new static("Unable to connect to {$host}: {$message}", $code);
+        return new static(
+            "Unable to connect to {$target} socket: {$message}",
+            $code
+        );
     }
 }

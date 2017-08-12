@@ -7,9 +7,6 @@ use Closure;
 
 trait CanDecoratedListen
 {
-    /** @var Signal */
-    private $signal;
-
     public function listen(string $name, Closure $callback): void
     {
         $this->decoratedConnector->listen($name, $callback);

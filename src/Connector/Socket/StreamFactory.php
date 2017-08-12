@@ -39,7 +39,7 @@ final class StreamFactory implements SocketFactory
         \stream_set_timeout($stream, $options->readWriteTimeout(), $options->readWriteTimeoutMs());
 
         if ($options->hasNoDelay()) {
-            socket_set_nodelay($stream, $options->noDelay());
+            stream_socket_set_nodelay($stream, $options->noDelay());
         }
 
         return $stream;

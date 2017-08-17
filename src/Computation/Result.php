@@ -15,7 +15,7 @@ use Tarantool\{
 abstract class Result implements Computation, Response
 {
     /** @var mixed */
-    protected $content = null;
+    protected $value = null;
 
     final public static function of($x): Computation
     {
@@ -42,8 +42,8 @@ abstract class Result implements Computation, Response
 
     abstract public function isFailure(): bool;
 
-    private function __construct($content)
+    private function __construct($value)
     {
-        $this->content = $content;
+        $this->value = $value;
     }
 }

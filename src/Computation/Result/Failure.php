@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace Tarantool\Computation\Result;
 
+use Throwable;
 use Tarantool\{
     Computation,
-    Computation\ComputationException,
     Computation\Result
 };
 
 final class Failure extends Result
 {
-    /** @var ComputationException */
-    protected $exception;
+    /** @var Throwable */
+    protected $throwable;
 
     public function bind(callable $fn): Computation
     {
@@ -26,7 +26,7 @@ final class Failure extends Result
 
     public function get()
     {
-        return $this->exception;
+        return $this->throwable;
     }
 
     public function isSuccess(): bool
@@ -39,8 +39,8 @@ final class Failure extends Result
         return true;
     }
 
-    protected function __construct(ComputationException $exception)
+    protected function __construct(Throwable $throwable)
     {
-        $this->exception = $exception;
+        $this->throwable = $throwable;
     }
 }

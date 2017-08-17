@@ -29,6 +29,7 @@
   },
   "autoload-dev": {
     "psr-4": {
+      "Tarantool\\TestSuite\\": "tests/TestSuite/",
       "Tarantool\\Client\\Tests\\": "tests/Client/",
       "Tarantool\\Computation\\Tests\\": "tests/Computation/",
       "Tarantool\\Connector\\Tests\\": "tests/Connector/"

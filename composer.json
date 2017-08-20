@@ -2,7 +2,7 @@
   "name": "alexmasterov/tarantool-client",
   "type": "library",
   "description": "High performance and fully customizable client for Tarantool, and abstraction for computing with monads",
-  "keywords": ["tarantool", "nosql", "client", "Tarantool client", "computing", "monad"],
+  "keywords": ["tarantool", "nosql", "client", "connector", "computing", "monad"],
   "homepage": "https://github.com/AlexMasterov/tarantool-client",
   "license": "MIT",
   "authors": [{
@@ -18,7 +18,8 @@
   "autoload": {
     "files": [
       "src/Client/functions.php",
-      "src/Connector/functions.php"
+      "src/Connector/functions.php",
+      "src/Protocol/functions.php"
     ],
     "psr-4": {
       "Tarantool\\": "src/"
@@ -29,10 +30,11 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tarantool\\TestSuite\\": "tests/TestSuite/",
       "Tarantool\\Client\\Tests\\": "tests/Client/",
       "Tarantool\\Computation\\Tests\\": "tests/Computation/",
-      "Tarantool\\Connector\\Tests\\": "tests/Connector/"
+      "Tarantool\\Connector\\Tests\\": "tests/Connector/",
+      "Tarantool\\Protocol\\Tests\\": "tests/Protocol/",
+      "Tarantool\\TestSuite\\": "tests/TestSuite/"
     }
   },
   "require": {

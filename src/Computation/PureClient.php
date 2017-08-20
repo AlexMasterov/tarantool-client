@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Tarantool\Client;
 
-use Tarantool\Client;
-use Tarantool\Client\{
-    Command,
-    Response,
-    Session\CanDecoratedSession
+use Tarantool\Client\Session\CanDecoratedSession;
+use Tarantool\{
+    Client,
+    Computation\Result,
+    Protocol\Request,
+    Protocol\Response
 };
-use Tarantool\Computation\Result;
 
 final class PureClient implements Client
 {

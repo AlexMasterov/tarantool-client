@@ -4,16 +4,16 @@ declare(strict_types=1);
 namespace Tarantool\Client;
 
 use Tarantool\Client\{
-    Command,
     Negotiation\CanAddNegotiator,
     Negotiation\ReceiveGreeting,
-    Response,
     Response\RawData,
     Session\CanSession
 };
 use Tarantool\{
     Client,
-    Connector
+    Connector,
+    Protocol\Request,
+    Protocol\Response
 };
 
 final class Simple implements Client
@@ -43,9 +43,9 @@ final class Simple implements Client
         });
     }
 
-    public function request(Command $command): Response
+    public function request(Request $request): Response
     {
-        $data = $this->connector->sendRequest($command);
+        $data = $this->connector->sendRequest($request);
 
         return new RawData($data);
     }

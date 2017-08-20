@@ -3,13 +3,15 @@ declare(strict_types=1);
 
 namespace Tarantool;
 
-use Tarantool\Client;
-use Tarantool\Client\{
-    Command,
-    Command\Call,
-    Command\Evaluate,
-    Command\Ping,
-    Response,
+use Tarantool\Protocol\{
+    Request,
+    Request\Call,
+    Request\Evaluate,
+    Request\Ping,
+    Response
+};
+use Tarantool\{
+    Client,
     Session
 };
 
@@ -35,29 +37,29 @@ final class Tarantool
         $this->client->destroySession();
     }
 
-    public function request(Command $command): Response
+    public function request(Request $request): Response
     {
-        return $this->client->request($command);
+        return $this->client->request($request);
     }
 
     public function ping(): Response
     {
-        $command = new Ping();
+        $request = new Ping();
 
-        return $this->client->request($command);
+        return $this->client->request($request);
     }
 
     public function call(string $functionName, array $arguments = []): Response
     {
-        $command = new Call($functionName, $arguments);
+        $request = new Call($functionName, $arguments);
 
-        return $this->client->request($command);
+        return $this->client->request($request);
     }
 
     public function evaluate(string $expression, array $arguments = []): Response
     {
-        $command = new Evaluate($expression, $arguments);
+        $request = new Evaluate($expression, $arguments);
 
-        return $this->client->request($command);
+        return $this->client->request($request);
     }
 }

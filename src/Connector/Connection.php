@@ -5,7 +5,7 @@ namespace Tarantool\Connector;
 
 use Tarantool\Connector\Sensor;
 
-interface Connection extends Sensor
+interface Connection
 {
     public function open(): void;
 

@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Tarantool;
 
-use Tarantool\Client\{
-    Command,
-    Response,
+use Tarantool\{
+    Protocol\Request,
+    Protocol\Response,
     Session
 };
 
@@ -19,5 +19,5 @@ interface Client
 
     public function getSession(): Session;
 
-    public function request(Command $command): Response;
+    public function request(Request $request): Response;
 }

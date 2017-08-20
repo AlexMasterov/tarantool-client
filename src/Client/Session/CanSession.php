@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Tarantool\Client\Session;
 
-use Tarantool\Client\{
-    ClientException,
+use Tarantool\{
+    Client\ClientException,
     Session
 };
 

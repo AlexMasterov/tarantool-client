@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Tarantool\Client\Negotiation;
 
-use Tarantool\Client;
-use Tarantool\Client\{
-    Command\Authenticate,
-    Negotiation
+use Tarantool\Protocol\Request\Authenticate;
+use Tarantool\{
+    Client,
+    Client\Negotiation
 };
 use function Tarantool\Client\chap_sha1;
 
@@ -32,8 +32,8 @@ final class Authentication implements Negotiation
 
         $tuple = ['chap-sha1', chap_sha1($this->password, $session->salt())];
 
-        $command = new Authenticate($tuple, $this->username);
+        $request = new Authenticate($tuple, $this->username);
 
-        $client->request($command);
+        $client->request($request);
     }
 }

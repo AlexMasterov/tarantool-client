@@ -4,10 +4,8 @@ declare(strict_types=1);
 namespace Tarantool\Client\Session;
 
 use DateTimeImmutable;
-use Tarantool\Client\{
-    Negotiation\ParsedGreeting,
-    Session
-};
+use Tarantool\Client\Negotiation\ParsedGreeting;
+use Tarantool\Session;
 
 final class Single implements Session
 {

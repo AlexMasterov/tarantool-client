@@ -8,8 +8,8 @@ use Tarantool\Computation\Result\{
     Success
 };
 use Tarantool\{
-    Client\Response,
-    Computation
+    Computation,
+    Protocol\Response
 };
 
 abstract class Result implements Computation, Response

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tarantool\Client\Response;
 
-use Tarantool\Client\Response;
+use Tarantool\Protocol\Response;
 
 final class RawData implements Response
 {

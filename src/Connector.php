@@ -3,13 +3,15 @@ declare(strict_types=1);
 
 namespace Tarantool;
 
-use Tarantool\Connector\{
-    Request,
-    Sensor
-};
+use Closure;
+use Tarantool\Protocol\Request;
 
-interface Connector extends Sensor
+interface Connector
 {
+    public function on(string $event, Closure $listener): void;
+
+    public function off(string $event, Closure $listener): void;
+
     public function disconnect(): void;
 
     public function sendRequest(Request $request): array;

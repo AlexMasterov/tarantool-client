@@ -4,11 +4,12 @@ declare(strict_types=1);
 namespace Tarantool\Client;
 
 use Closure;
-use Tarantool\Client;
-use Tarantool\Client\{
-    Command,
-    Response,
-    Session\CanDecoratedSession
+use Tarantool\Client\Session\CanDecoratedSession;
+use Tarantool\{
+    Client,
+    Connector,
+    Protocol\Request,
+    Protocol\Response
 };
 
 final class LazyClient implements Client
@@ -23,9 +24,9 @@ final class LazyClient implements Client
         $this->closure = $closure;
     }
 
-    public function request(Command $command): Response
+    public function request(Request $request): Response
     {
-        return $this->getClient()->request($command);
+        return $this->getClient()->request($request);
     }
 
     private function getClient(): Client

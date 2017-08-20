@@ -3,17 +3,13 @@ declare(strict_types=1);
 
 namespace Tarantool\Connector\Connection;
 
+use Closure;
 use DateInterval;
 use DateTimeImmutable;
-use Tarantool\Connector\{
-    Connection,
-    Connection\CanDecoratedListen
-};
+use Tarantool\Connector\Connection;
 
 final class AutomaticConnection implements Connection
 {
-    use CanDecoratedListen;
-
     /** @var bool */
     private $connecting = false;
 
@@ -32,6 +28,16 @@ final class AutomaticConnection implements Connection
     ) {
         $this->decoratedConnection = $decoratedConnection;
         $this->interval = $interval;
+    }
+
+    public function on(string $event, Closure $listener): void
+    {
+        $this->decoratedConnection->on($event, $listener);
+    }
+
+    public function off(string $event, Closure $listener): void
+    {
+        $this->decoratedConnection->off($event, $listener);
     }
 
     public function open(): void

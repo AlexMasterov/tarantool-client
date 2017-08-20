@@ -3,17 +3,15 @@ declare(strict_types=1);
 
 namespace Tarantool\Connector;
 
+use Closure;
 use Tarantool\Connector;
 use Tarantool\Connector\{
     Connection\ConnectionException,
-    Request,
-    Sensor\CanDecoratedListen
+    Request
 };
 
 final class RetryIfFailedConnector implements Connector
 {
-    use CanDecoratedListen;
-
     /** @var Connector */
     private $decoratedConnector;
 
@@ -24,6 +22,16 @@ final class RetryIfFailedConnector implements Connector
     {
         $this->decoratedConnector = $connector;
         $this->retryCount = $retryCount;
+    }
+
+    public function on(string $event, Closure $listener): void
+    {
+        $this->decoratedConnector->on($event, $listener);
+    }
+
+    public function off(string $event, Closure $listener): void
+    {
+        $this->decoratedConnector->off($event, $listener);
     }
 
     public function disconnect(): void

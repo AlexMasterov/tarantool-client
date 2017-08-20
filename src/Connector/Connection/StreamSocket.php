@@ -3,19 +3,16 @@ declare(strict_types=1);
 
 namespace Tarantool\Connector\Connection;
 
+use Closure;
 use Tarantool\Connector\{
     Connection,
     Connection\ConnectionException,
-    Sensor\CanListen,
-    Signal,
-    Signal\Standart,
+    Sensor,
     SocketFactory
 };
 
 final class StreamSocket implements Connection
 {
-    use CanListen;
-
     /** @var resource|null */
     private $stream = null;
 
@@ -25,17 +22,17 @@ final class StreamSocket implements Connection
     /** @var SocketFactory */
     private $factory;
 
-    /** @var Signal */
-    private $signal;
+    /** @var Sensor */
+    private $sensor;
 
     public function __construct(
         string $url,
         SocketFactory $factory,
-        Signal $signal = null
+        Sensor $sensor
     ) {
         $this->url = $url;
         $this->factory = $factory;
-        $this->signal = $signal ?? new Standart();
+        $this->sensor = $sensor;
     }
 
     public function __destruct()
@@ -43,21 +40,35 @@ final class StreamSocket implements Connection
         $this->close();
     }
 
+    public function on(string $event, Closure $listener): void
+    {
+        $this->sensor->on($event, $listener);
+    }
+
+    public function off(string $event, Closure $listener): void
+    {
+        $this->sensor->off($event, $listener);
+    }
+
     public function open(): void
     {
-        if (null === $this->stream) {
-            $this->stream = $this->factory->create($this->url);
-            $this->signal->beep('open');
+        if (null !== $this->stream) {
+            return;
         }
+
+        $this->stream = $this->factory->create($this->url);
+        $this->sensor->emit('open');
     }
 
     public function close(): void
     {
-        if (null !== $this->stream) {
-            $stream = $this->stream;
-            $this->stream = null;
-            \fclose($stream);
+        if (null === $this->stream) {
+            return;
         }
+
+        $stream = $this->stream;
+        $this->stream = null;
+        \fclose($stream);
     }
 
     public function send(string $data): int
@@ -66,7 +77,7 @@ final class StreamSocket implements Connection
 
         $bytesWritten = \fwrite($this->stream, $data);
 
-        if (false === $bytesWritten) {
+        if (false === $bytesWritten || 0 === $bytesWritten) {
             throw ConnectionException::cannotWrite();
         }
 

@@ -5,7 +5,6 @@ namespace Tarantool;
 
 use Tarantool\Connector\{
     Request,
-    Response,
     Sensor
 };
 

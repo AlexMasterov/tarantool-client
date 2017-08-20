@@ -7,5 +7,7 @@ use Closure;
 
 interface Sensor
 {
-    public function listen(string $name, Closure $callback): void;
+    public function on(string $event, Closure $listener): void;
+
+    public function off(string $event, Closure $listener): void;
 }

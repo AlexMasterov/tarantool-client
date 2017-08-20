@@ -34,7 +34,7 @@ final class Simple implements Client
             $this->addNegotiator($negotiator);
         }
 
-        $this->connector->listen('greeting', function ($greeting) {
+        $this->connector->on('greeting', function ($greeting) {
             (new ReceiveGreeting($greeting))->negotiate($this);
 
             foreach ($this->negotiators as $negotiator) {

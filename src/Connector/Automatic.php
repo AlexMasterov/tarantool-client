@@ -8,43 +8,53 @@ use Tarantool\Connector\{
     Connection,
     MessagePack,
     Request,
-    Sensor\CanListen,
-    Signal\Standart
+    Sensor
 };
 use function Tarantool\Connector\unpack_length;
 
 final class Automatic implements Connector
 {
-    use CanListen;
-
     /** @var Connection */
     private $connection;
 
     /** @var MessagePack */
     private $packer;
 
+    /** @var Sensor */
+    private $sensor;
+
     public function __construct(
         Connection $connection,
         MessagePack $packer,
-        Signal $signal = null
+        Sensor $sensor
     ) {
         $this->connection = $connection;
         $this->packer = $packer;
-        $this->signal = $signal ?? new Standart();
+        $this->sensor = $sensor;
 
-        $this->connection->listen('open', function () {
-            $this->listen('connect', function () {
+        $this->connection->on('open', function () {
+            $this->on('connect', function () {
                 $greeting = $this->connection->receive(Request::GREETING_SIZE);
-                $this->signal->beep('greeting', $greeting);
+                $this->sensor->emit('greeting', $greeting);
             });
-            $this->signal->beep('connect');
+            $this->sensor->emit('connect');
         });
+    }
+
+    public function on(string $event, Closure $listener): void
+    {
+        $this->sensor->on($event, $listener);
+    }
+
+    public function off(string $event, Closure $listener): void
+    {
+        $this->sensor->off($event, $listener);
     }
 
     public function disconnect(): void
     {
         $this->connection->close();
-        $this->signal->beep('disconnect');
+        $this->sensor->emit('disconnect');
     }
 
     public function sendRequest(Request $request): array

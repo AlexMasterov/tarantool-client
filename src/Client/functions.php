@@ -29,7 +29,7 @@ function chap_sha1(string $password, string $salt): string
 function str_xor(string $rhash, string $lhash): string
 {
     $result = '';
-    for ($i = 0; $i < 20; $i += 1) {
+    for ($i = 0; $i < 20; ++$i) {
         $result .= $rhash[$i] ^ $lhash[$i];
     }
 

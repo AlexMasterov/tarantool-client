@@ -4,6 +4,12 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Request;
 
 use Tarantool\Protocol\Request;
+use const Tarantool\Protocol\{
+    CODE,
+    INSERT,
+    SPACE_ID,
+    TUPLE
+};
 
 final class Insert implements Request
 {
@@ -24,15 +30,15 @@ final class Insert implements Request
     public function header(): array
     {
         return [
-            self::CODE => self::INSERT,
+            CODE => INSERT,
         ];
     }
 
     public function body(): array
     {
         return [
-            self::SPACE_ID => $this->spaceId,
-            self::TUPLE => $this->values,
+            SPACE_ID => $this->spaceId,
+            TUPLE => $this->values,
         ];
     }
 }

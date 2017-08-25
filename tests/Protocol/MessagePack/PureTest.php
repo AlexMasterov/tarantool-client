@@ -5,11 +5,17 @@ namespace Tarantool\Protocol\Tests\MessagePack;
 
 use PHPUnit\Framework\TestCase;
 use Tarantool\Protocol\{
-    Constants,
     MessagePack\MessagePackException,
     MessagePack\Pure
 };
 use Tarantool\TestSuite\Protocol\FakeRequest;
+use const Tarantool\Protocol\{
+    CODE,
+    DATA,
+    SELECT,
+    SYNC,
+    UPSERT
+};
 
 /**
  * @link https://github.com/tarantool-php/client/blob/master/tests/Unit/Packer/PackerTest.php
@@ -37,66 +43,66 @@ final class PureTest extends TestCase
         return [
             [
                 [
-                    Constants::CODE => Constants::UPSERT,
-                    Constants::SYNC => 0,
+                    CODE => UPSERT,
+                    SYNC => 0,
                 ],
                 [],
                 'ce000000058200090100',
             ],
             [
                 [
-                    Constants::CODE => Constants::SELECT,
-                    Constants::SYNC => 0,
+                    CODE => SELECT,
+                    SYNC => 0,
                 ],
                 [],
                 'ce000000058200010100',
             ],
             [
                 [
-                    Constants::CODE => Constants::CODE,
-                    Constants::SYNC => 1,
+                    CODE => CODE,
+                    SYNC => 1,
                 ],
                 [],
                 'ce000000058200000101',
             ],
             [
                 [
-                    Constants::CODE => Constants::CODE,
-                    Constants::SYNC => 128,
+                    CODE => CODE,
+                    SYNC => 128,
                 ],
                 [],
                 'ce0000000682000001cc80',
             ],
             [
                 [
-                    Constants::CODE => Constants::CODE,
-                    Constants::SYNC => 256,
+                    CODE => CODE,
+                    SYNC => 256,
                 ],
                 [],
                 'ce0000000782000001cd0100',
             ],
             [
                 [
-                    Constants::CODE => Constants::CODE,
-                    Constants::SYNC => 0xffff + 1,
+                    CODE => CODE,
+                    SYNC => 0xffff + 1,
                 ],
                 [],
                 'ce0000000982000001ce00010000',
             ],
             [
                 [
-                    Constants::CODE => Constants::CODE,
-                    Constants::SYNC => 0xffffffff + 1,
+                    CODE => CODE,
+                    SYNC => 0xffffffff + 1,
                 ],
                 [],
                 'ce0000000d82000001cf0000000100000000',
             ],
             [
                 [
-                    Constants::CODE => Constants::CODE,
-                    Constants::SYNC => Constants::CODE,
+                    CODE => CODE,
+                    SYNC => CODE,
                 ],
-                [Constants::SELECT => 2],
+                [SELECT => 2],
                 'ce000000088200000100810102',
             ],
         ];
@@ -113,8 +119,8 @@ final class PureTest extends TestCase
             ->unpack(\hex2bin($hexData));
 
         // Verify
-        self::assertSame($expectedSync, $header[Constants::SYNC]);
-        self::assertSame($expectedData, $body[Constants::DATA] ?? null);
+        self::assertSame($expectedSync, $header[SYNC]);
+        self::assertSame($expectedData, $body[DATA] ?? null);
     }
 
     public function unpackedData()

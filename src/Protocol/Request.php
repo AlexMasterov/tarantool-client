@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace Tarantool\Protocol;
 
-use Tarantool\Protocol\Constants;
-
-interface Request extends Constants
+interface Request
 {
     public function header(): array;
 

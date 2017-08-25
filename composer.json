@@ -19,6 +19,7 @@
     "files": [
       "src/Client/functions.php",
       "src/Connector/functions.php",
+      "src/Protocol/constants.php",
       "src/Protocol/functions.php"
     ],
     "psr-4": {

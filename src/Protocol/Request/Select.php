@@ -4,6 +4,16 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Request;
 
 use Tarantool\Protocol\Request;
+use const Tarantool\Protocol\{
+    CODE,
+    INDEX_ID,
+    ITERATOR,
+    KEY,
+    LIMIT,
+    OFFSET,
+    SELECT,
+    SPACE_ID
+};
 
 final class Select implements Request
 {
@@ -44,19 +54,19 @@ final class Select implements Request
     public function header(): array
     {
         return [
-            self::CODE => self::SELECT,
+            CODE => SELECT,
         ];
     }
 
     public function body(): array
     {
         return [
-            self::KEY => $this->key,
-            self::SPACE_ID => $this->spaceId,
-            self::INDEX_ID => $this->indexId,
-            self::LIMIT => $this->limit,
-            self::OFFSET => $this->offset,
-            self::ITERATOR => $this->iterator,
+            SPACE_ID => $this->spaceId,
+            INDEX_ID => $this->indexId,
+            LIMIT => $this->limit,
+            OFFSET => $this->offset,
+            ITERATOR => $this->iterator,
+            KEY => $this->key,
         ];
     }
 }

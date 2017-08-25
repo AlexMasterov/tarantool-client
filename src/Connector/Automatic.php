@@ -10,7 +10,11 @@ use Tarantool\Connector\{
     Request,
     Sensor
 };
-use function Tarantool\Connector\unpack_length;
+use const Tarantool\Protocol\{
+    GREETING_SIZE,
+    PACKET_LENGTH_BYTES
+};
+use function Tarantool\Protocol\unpack_length;
 
 final class Automatic implements Connector
 {
@@ -34,7 +38,7 @@ final class Automatic implements Connector
 
         $this->connection->on('open', function () {
             $this->on('connect', function () {
-                $greeting = $this->connection->receive(Request::GREETING_SIZE);
+                $greeting = $this->connection->receive(GREETING_SIZE);
                 $this->sensor->emit('greeting', $greeting);
             });
             $this->sensor->emit('connect');
@@ -63,7 +67,7 @@ final class Automatic implements Connector
 
         $this->connection->send($packed);
 
-        $binary = $this->connection->receive(Request::PACKET_LENGTH_BYTES);
+        $binary = $this->connection->receive(PACKET_LENGTH_BYTES);
         $binary = $this->connection->receive(unpack_length($binary));
 
         $unpacked = $this->packer->unpack($binary);

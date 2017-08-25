@@ -4,6 +4,14 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Request;
 
 use Tarantool\Protocol\Request;
+use const Tarantool\Protocol\{
+    CODE,
+    INDEX_ID,
+    KEY,
+    SPACE_ID,
+    TUPLE,
+    UPDATE
+};
 
 final class Update implements Request
 {
@@ -34,17 +42,17 @@ final class Update implements Request
     public function header(): array
     {
         return [
-            self::CODE => self::UPDATE,
+            CODE => UPDATE,
         ];
     }
 
     public function body(): array
     {
         return [
-            self::SPACE_ID => $this->spaceId,
-            self::INDEX_ID => $this->indexId,
-            self::KEY => $this->key,
-            self::TUPLE => $this->operations,
+            SPACE_ID => $this->spaceId,
+            INDEX_ID => $this->indexId,
+            KEY => $this->key,
+            TUPLE => $this->operations,
         ];
     }
 }

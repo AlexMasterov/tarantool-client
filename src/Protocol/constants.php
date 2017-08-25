@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tarantool\Protocol;
 
+// @codeCoverageIgnoreStart
 const GREETING_SIZE = 128;
 const PACKET_LENGTH_BYTES = 5;
 const ERROR_CODE = 0x8000;
@@ -46,3 +47,4 @@ const OPERATIONS = 0x28;
 
 const DATA = 0x30;
 const ERROR = 0x31;
+// @codeCoverageIgnore

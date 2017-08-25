@@ -10,7 +10,7 @@ function pack_length(int $length): string
 
 function unpack_length(string $data): int
 {
-    ['length' => $length] = \unpack('C_/Nlength', $data);
+    ['length' => $length] = \unpack('C/Nlength', $data);
 
     return $length;
 }

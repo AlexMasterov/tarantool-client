@@ -22,7 +22,7 @@ final class FunctionsTest extends TestCase
         $unpacked = unpack_length($packed);
 
         // Verify
-        $this->assertInternalType('string', $packed);
-        $this->assertSame($value, unpack_length($packed));
+        self::assertInternalType('string', $packed);
+        self::assertSame($value, unpack_length($packed));
     }
 }

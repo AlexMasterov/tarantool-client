@@ -21,17 +21,12 @@ function chap_sha1(string $password, string $salt): string
 {
     $hash1 = \sha1($password, true);
     $hash2 = \sha1($hash1, true);
-    $scramble = \sha1("{$salt}{$hash2}", true);
+    $hash3 = \sha1("{$salt}{$hash2}", true);
 
-    return str_xor($hash1, $scramble);
-}
-
-function str_xor(string $rhash, string $lhash): string
-{
-    $result = '';
+    $scramble = '';
     for ($i = 0; $i < 20; ++$i) {
-        $result .= $rhash[$i] ^ $lhash[$i];
+        $scramble .= $hash1[$i] ^ $hash3[$i];
     }
 
-    return $result;
+    return $scramble;
 }

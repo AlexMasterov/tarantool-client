@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Authenticate;
-use const Tarantool\Protocol\{
-    AUTHENTICATE,
-    CODE,
-    TUPLE,
-    USER_NAME
+use Tarantool\Protocol\{
+    Request,
+    Request\Authenticate
 };
 
 final class AuthenticateTest extends TestCase
@@ -19,11 +16,11 @@ final class AuthenticateTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => AUTHENTICATE,
+            Request::CODE => Request::AUTHENTICATE,
         ];
         $body = [
-            TUPLE     => 'array',
-            USER_NAME => 'string',
+            Request::TUPLE     => 'array',
+            Request::USER_NAME => 'string',
         ];
 
         // Execute

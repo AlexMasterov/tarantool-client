@@ -4,12 +4,6 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Request;
 
 use Tarantool\Protocol\Request;
-use const Tarantool\Protocol\{
-    CODE,
-    REPLACE,
-    SPACE_ID,
-    TUPLE
-};
 
 final class Replace implements Request
 {
@@ -30,15 +24,15 @@ final class Replace implements Request
     public function header(): array
     {
         return [
-            CODE => REPLACE,
+            self::CODE => self::REPLACE,
         ];
     }
 
     public function body(): array
     {
         return [
-            SPACE_ID => $this->spaceId,
-            TUPLE => $this->values,
+           self::SPACE_ID => $this->spaceId,
+           self::TUPLE => $this->values,
         ];
     }
 }

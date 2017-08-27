@@ -4,13 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Delete;
-use const Tarantool\Protocol\{
-    CODE,
-    DELETE,
-    INDEX_ID,
-    KEY,
-    SPACE_ID
+use Tarantool\Protocol\{
+    Request,
+    Request\Delete
 };
 
 final class DeleteTest extends TestCase
@@ -20,12 +16,12 @@ final class DeleteTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => DELETE,
+            Request::CODE => Request::DELETE,
         ];
         $body = [
-            SPACE_ID => 'int',
-            INDEX_ID => 'int',
-            KEY      => 'array',
+           Request::SPACE_ID => 'int',
+           Request::INDEX_ID => 'int',
+           Request::KEY      => 'array',
         ];
 
         // Execute

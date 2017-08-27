@@ -4,13 +4,6 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Request;
 
 use Tarantool\Protocol\Request;
-use const Tarantool\Protocol\{
-    CODE,
-    DELETE,
-    INDEX_ID,
-    KEY,
-    SPACE_ID
-};
 
 final class Delete implements Request
 {
@@ -36,16 +29,16 @@ final class Delete implements Request
     public function header(): array
     {
         return [
-            CODE => DELETE,
+            self::CODE => self::DELETE,
         ];
     }
 
     public function body(): array
     {
         return [
-            SPACE_ID => $this->spaceId,
-            INDEX_ID => $this->indexId,
-            KEY => $this->key,
+           self::SPACE_ID => $this->spaceId,
+           self::INDEX_ID => $this->indexId,
+           self::KEY => $this->key,
         ];
     }
 }

@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Call;
-use const Tarantool\Protocol\{
-    CALL,
-    CODE,
-    FUNCTION_NAME,
-    TUPLE
+use Tarantool\Protocol\{
+    Request,
+    Request\Call
 };
 
 final class CallTest extends TestCase
@@ -19,11 +16,11 @@ final class CallTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => CALL,
+            Request::CODE => Request::CALL,
         ];
         $body = [
-            FUNCTION_NAME => 'string',
-            TUPLE         => 'array',
+            Request::FUNCTION_NAME => 'string',
+            Request::TUPLE         => 'array',
         ];
 
         // Execute

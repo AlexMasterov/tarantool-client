@@ -4,11 +4,6 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Request;
 
 use Tarantool\Protocol\Request;
-use const Tarantool\Protocol\{
-    CODE,
-    JOIN,
-    SERVER_UUID
-};
 
 final class Join implements Request
 {
@@ -23,14 +18,14 @@ final class Join implements Request
     public function header(): array
     {
         return [
-            CODE => JOIN,
+            self::CODE => self::JOIN,
         ];
     }
 
     public function body(): array
     {
         return [
-            SERVER_UUID => $this->serverUuid,
+            self::SERVER_UUID => $this->serverUuid,
         ];
     }
 }

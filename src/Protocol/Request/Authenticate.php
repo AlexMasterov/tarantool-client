@@ -4,12 +4,6 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Request;
 
 use Tarantool\Protocol\Request;
-use const Tarantool\Protocol\{
-    AUTHENTICATE,
-    CODE,
-    TUPLE,
-    USER_NAME
-};
 
 final class Authenticate implements Request
 {
@@ -30,15 +24,15 @@ final class Authenticate implements Request
     public function header(): array
     {
         return [
-            CODE => AUTHENTICATE,
+            self::CODE => self::AUTHENTICATE,
         ];
     }
 
     public function body(): array
     {
         return [
-            TUPLE => $this->tuple,
-            USER_NAME => $this->username,
+            self::TUPLE => $this->tuple,
+            self::USER_NAME => $this->username,
         ];
     }
 }

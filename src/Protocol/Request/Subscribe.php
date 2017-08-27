@@ -4,13 +4,6 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Request;
 
 use Tarantool\Protocol\Request;
-use const Tarantool\Protocol\{
-    CLUSTER_UUID,
-    CODE,
-    SERVER_UUID,
-    SUBSCRIBE,
-    VCLOCK
-};
 
 final class Subscribe implements Request
 {
@@ -36,16 +29,16 @@ final class Subscribe implements Request
     public function header(): array
     {
         return [
-            CODE => SUBSCRIBE,
+            self::CODE => self::SUBSCRIBE,
         ];
     }
 
     public function body(): array
     {
         return [
-            CLUSTER_UUID => $this->clusterUuid,
-            SERVER_UUID => $this->serverUuid,
-            VCLOCK => $this->vclock,
+           self::CLUSTER_UUID => $this->clusterUuid,
+           self::SERVER_UUID => $this->serverUuid,
+           self::VCLOCK => $this->vclock,
         ];
     }
 }

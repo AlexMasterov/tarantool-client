@@ -4,16 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Select;
-use const Tarantool\Protocol\{
-    CODE,
-    INDEX_ID,
-    ITERATOR,
-    KEY,
-    LIMIT,
-    OFFSET,
-    SELECT,
-    SPACE_ID
+use Tarantool\Protocol\{
+    Request,
+    Request\Select
 };
 
 final class SelectTest extends TestCase
@@ -23,15 +16,15 @@ final class SelectTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => SELECT,
+            Request::CODE => Request::SELECT,
         ];
         $body = [
-            SPACE_ID => 'int',
-            INDEX_ID => 'int',
-            LIMIT    => 'int',
-            OFFSET   => 'int',
-            ITERATOR => 'int',
-            KEY      => 'array',
+           Request::SPACE_ID => 'int',
+           Request::INDEX_ID => 'int',
+           Request::LIMIT    => 'int',
+           Request::OFFSET   => 'int',
+           Request::ITERATOR => 'int',
+           Request::KEY      => 'array',
         ];
 
         // Execute

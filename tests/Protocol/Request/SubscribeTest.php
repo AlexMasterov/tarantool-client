@@ -4,13 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Subscribe;
-use const Tarantool\Protocol\{
-    CLUSTER_UUID,
-    CODE,
-    SERVER_UUID,
-    SUBSCRIBE,
-    VCLOCK
+use Tarantool\Protocol\{
+    Request,
+    Request\Subscribe
 };
 
 final class SubscribeTest extends TestCase
@@ -20,12 +16,12 @@ final class SubscribeTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => SUBSCRIBE,
+            Request::CODE => Request::SUBSCRIBE,
         ];
         $body = [
-            SERVER_UUID  => 'string',
-            CLUSTER_UUID => 'string',
-            VCLOCK       => 'array',
+            Request::SERVER_UUID  => 'string',
+            Request::CLUSTER_UUID => 'string',
+            Request::VCLOCK       => 'array',
         ];
 
         // Execute

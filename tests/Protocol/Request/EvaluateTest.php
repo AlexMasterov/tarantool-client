@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Evaluate;
-use const Tarantool\Protocol\{
-    CODE,
-    EVALUATE,
-    EXPRESSION,
-    TUPLE
+use Tarantool\Protocol\{
+    Request,
+    Request\Evaluate
 };
 
 final class EvaluateTest extends TestCase
@@ -19,11 +16,11 @@ final class EvaluateTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => EVALUATE,
+            Request::CODE => Request::EVALUATE,
         ];
         $body = [
-            EXPRESSION => 'string',
-            TUPLE      => 'array',
+           Request::EXPRESSION => 'string',
+           Request::TUPLE      => 'array',
         ];
 
         // Execute

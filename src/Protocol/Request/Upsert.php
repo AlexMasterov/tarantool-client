@@ -4,13 +4,6 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Request;
 
 use Tarantool\Protocol\Request;
-use const Tarantool\Protocol\{
-    CODE,
-    OPERATIONS,
-    SPACE_ID,
-    TUPLE,
-    UPSERT
-};
 
 final class Upsert implements Request
 {
@@ -36,16 +29,16 @@ final class Upsert implements Request
     public function header(): array
     {
         return [
-            CODE => UPSERT,
+            self::CODE => self::UPSERT,
         ];
     }
 
     public function body(): array
     {
         return [
-            SPACE_ID => $this->spaceId,
-            TUPLE => $this->values,
-            OPERATIONS => $this->operations,
+           self::SPACE_ID => $this->spaceId,
+           self::TUPLE => $this->values,
+           self::OPERATIONS => $this->operations,
         ];
     }
 }

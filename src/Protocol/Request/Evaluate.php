@@ -4,12 +4,6 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Request;
 
 use Tarantool\Protocol\Request;
-use const Tarantool\Protocol\{
-    CODE,
-    EVALUATE,
-    EXPRESSION,
-    TUPLE
-};
 
 final class Evaluate implements Request
 {
@@ -30,15 +24,15 @@ final class Evaluate implements Request
     public function header(): array
     {
         return [
-            CODE => EVALUATE,
+            self::CODE => self::EVALUATE,
         ];
     }
 
     public function body(): array
     {
         return [
-            EXPRESSION => $this->expression,
-            TUPLE => $this->arguments,
+           self::EXPRESSION => $this->expression,
+           self::TUPLE => $this->arguments,
         ];
     }
 }

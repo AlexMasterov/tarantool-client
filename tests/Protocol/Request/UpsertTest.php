@@ -4,13 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Upsert;
-use const Tarantool\Protocol\{
-    CODE,
-    OPERATIONS,
-    SPACE_ID,
-    TUPLE,
-    UPSERT
+use Tarantool\Protocol\{
+    Request,
+    Request\Upsert
 };
 
 final class UpsertTest extends TestCase
@@ -20,12 +16,12 @@ final class UpsertTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => UPSERT,
+            Request::CODE => Request::UPSERT,
         ];
         $body = [
-            SPACE_ID   => 'int',
-            TUPLE      => 'array',
-            OPERATIONS => 'array',
+            Request::SPACE_ID   => 'int',
+            Request::TUPLE      => 'array',
+            Request::OPERATIONS => 'array',
         ];
 
         // Execute

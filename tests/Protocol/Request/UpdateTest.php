@@ -4,14 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Update;
-use const Tarantool\Protocol\{
-    CODE,
-    INDEX_ID,
-    KEY,
-    SPACE_ID,
-    TUPLE,
-    UPDATE
+use Tarantool\Protocol\{
+    Request,
+    Request\Update
 };
 
 final class UpdateTest extends TestCase
@@ -21,13 +16,13 @@ final class UpdateTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => UPDATE,
+            Request::CODE => Request::UPDATE,
         ];
         $body = [
-            SPACE_ID => 'int',
-            INDEX_ID => 'int',
-            KEY      => 'array',
-            TUPLE    => 'array',
+           Request::SPACE_ID => 'int',
+           Request::INDEX_ID => 'int',
+           Request::KEY      => 'array',
+           Request::TUPLE    => 'array',
         ];
 
         // Execute

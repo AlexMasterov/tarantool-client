@@ -4,10 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Ping;
-use const Tarantool\Protocol\{
-    CODE,
-    PING
+use Tarantool\Protocol\{
+    Request,
+    Request\Ping
 };
 
 final class PingTest extends TestCase
@@ -17,7 +16,7 @@ final class PingTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => PING,
+            Request::CODE => Request::PING,
         ];
         $body = [];
 

@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Insert;
-use const Tarantool\Protocol\{
-    CODE,
-    INSERT,
-    SPACE_ID,
-    TUPLE
+use Tarantool\Protocol\{
+    Request,
+    Request\Insert
 };
 
 final class InsertTest extends TestCase
@@ -19,11 +16,11 @@ final class InsertTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => INSERT,
+            Request::CODE => Request::INSERT,
         ];
         $body = [
-            SPACE_ID => 'int',
-            TUPLE    => 'array',
+           Request::SPACE_ID => 'int',
+           Request::TUPLE    => 'array',
         ];
 
         // Execute

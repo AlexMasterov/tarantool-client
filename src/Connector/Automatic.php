@@ -67,7 +67,7 @@ final class Automatic implements Connector
 
         $this->connection->send($packed);
 
-        $binary = $this->connection->receive(PACKET_LENGTH_BYTES);
+        $binary = $this->connection->receive(Request::PACKET_LENGTH_BYTES);
         $binary = $this->connection->receive(unpack_length($binary));
 
         $unpacked = $this->packer->unpack($binary);

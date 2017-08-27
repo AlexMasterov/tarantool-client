@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Replace;
-use const Tarantool\Protocol\{
-    CODE,
-    REPLACE,
-    SPACE_ID,
-    TUPLE
+use Tarantool\Protocol\{
+    Request,
+    Request\Replace
 };
 
 final class ReplaceTest extends TestCase
@@ -19,11 +16,11 @@ final class ReplaceTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => REPLACE,
+            Request::CODE => Request::REPLACE,
         ];
         $body = [
-            SPACE_ID => 'int',
-            TUPLE    => 'array',
+           Request::SPACE_ID => 'int',
+           Request::TUPLE    => 'array',
         ];
 
         // Execute

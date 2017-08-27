@@ -4,11 +4,9 @@ declare(strict_types=1);
 namespace Tarantool\Protocol\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Tarantool\Protocol\Request\Join;
-use const Tarantool\Protocol\{
-    CODE,
-    JOIN,
-    SERVER_UUID
+use Tarantool\Protocol\{
+    Request,
+    Request\Join
 };
 
 final class JoinTest extends TestCase
@@ -18,10 +16,10 @@ final class JoinTest extends TestCase
     {
         // Stub
         $header = [
-            CODE => JOIN,
+            Request::CODE => Request::JOIN,
         ];
         $body = [
-            SERVER_UUID => 'string',
+            Request::SERVER_UUID => 'string',
         ];
 
         // Execute

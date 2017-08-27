@@ -8,7 +8,7 @@ use Tarantool\{
     Client,
     Client\Negotiation
 };
-use function Tarantool\Client\chap_sha1;
+use function Tarantool\Protocol\chap_sha1;
 
 final class Authentication implements Negotiation
 {

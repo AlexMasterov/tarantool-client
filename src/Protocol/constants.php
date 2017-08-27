@@ -5,6 +5,11 @@ namespace Tarantool\Protocol;
 
 // @codeCoverageIgnoreStart
 const GREETING_SIZE = 128;
+const GREETING_SERVER_LENGTH = 64;
+const GREETING_SALT_LENGTH = 44;
+
+const SCRAMBLE_LENGTH = 20;
+
 const PACKET_LENGTH_BYTES = 5;
 const ERROR_CODE = 0x8000;
 

@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Tarantool\Protocol;
 
-use const Tarantool\Protocol\SCRAMBLE_LENGTH;
-
 /** @link https://tarantool.org/doc/1.7/dev_guide/internals_index.html#authentication */
 function chap_sha1(string $password, string $salt): string
 {
@@ -13,7 +11,7 @@ function chap_sha1(string $password, string $salt): string
     $hash3 = \sha1("{$salt}{$hash2}", true);
 
     $scramble = '';
-    for ($i = 0; $i < SCRAMBLE_LENGTH; ++$i) {
+    for ($i = 0; $i < 20; ++$i) {
         $scramble .= $hash1[$i] ^ $hash3[$i];
     }
 

@@ -3,16 +3,19 @@ declare(strict_types=1);
 
 namespace Tarantool\Client\Session;
 
-use Tarantool\Session;
+use Tarantool\{
+    Protocol\Greeting,
+    Session
+};
 
 trait CanDecoratedSession
 {
     /** @var Client|null */
     private $decoratedClient = null;
 
-    public function createSession(Session $session): void
+    public function createSession(Greeting $greeting): void
     {
-        $this->getClient()->createSession($session);
+        $this->getClient()->createSession($greeting);
     }
 
     final public function destroySession(): void

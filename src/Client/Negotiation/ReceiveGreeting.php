@@ -6,8 +6,7 @@ namespace Tarantool\Client\Negotiation;
 use Tarantool\Client;
 use Tarantool\Client\{
     Negotiation,
-    Negotiation\ParsedGreeting,
-    Session\Single
+    Protocol\Greeting\Parsed
 };
 
 final class ReceiveGreeting implements Negotiation
@@ -26,8 +25,8 @@ final class ReceiveGreeting implements Negotiation
             return;
         }
 
-        $parsedGreeting = new ParsedGreeting($this->greeting);
+        $parsedGreeting = new Parsed($this->greeting);
 
-        $client->createSession(new Single($parsedGreeting));
+        $client->createSession($parsedGreeting);
     }
 }

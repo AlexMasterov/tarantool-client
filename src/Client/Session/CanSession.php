@@ -5,6 +5,7 @@ namespace Tarantool\Client\Session;
 
 use Tarantool\{
     Client\ClientException,
+    Protocol\Greeting,
     Session
 };
 
@@ -16,9 +17,9 @@ trait CanSession
     /** @var Session|null */
     private $session = null;
 
-    public function createSession(Session $session): void
+    public function createSession(Greeting $greeting): void
     {
-        $this->session = $session;
+        $this->session = new Single($greeting);
     }
 
     public function destroySession(): void

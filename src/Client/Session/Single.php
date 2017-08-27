@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace Tarantool\Client\Session;
 
 use DateTimeImmutable;
-use Tarantool\Client\Negotiation\ParsedGreeting;
-use Tarantool\Session;
+use Tarantool\{
+    Session,
+    Protocol\Greeting
+};
 
 final class Single implements Session
 {
@@ -18,11 +20,11 @@ final class Single implements Session
     /** @var string */
     private $salt;
 
-    public function __construct(ParsedGreeting $greeting)
+    public function __construct(Greeting $greeting)
     {
         $this->createdAt = new DateTimeImmutable('now');
-
-        [$this->server, $this->salt] = $greeting->message();
+        $this->server = $greeting->server();
+        $this->salt = $greeting->salt();
     }
 
     public function createdAt(): DateTimeImmutable

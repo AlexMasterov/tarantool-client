@@ -4,12 +4,9 @@ declare(strict_types=1);
 namespace Tarantool;
 
 use DateTimeImmutable;
+use Tarantool\Protocol\Greeting;
 
-interface Session
+interface Session extends Greeting
 {
     public function createdAt(): DateTimeImmutable;
-
-    public function server(): string;
-
-    public function salt(): string;
 }

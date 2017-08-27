@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tarantool;
 
 use Tarantool\{
+    Protocol\Greeting,
     Protocol\Request,
     Protocol\Response,
     Session
@@ -11,7 +12,7 @@ use Tarantool\{
 
 interface Client
 {
-    public function createSession(Session $session): void;
+    public function createSession(Greeting $greeting): void;
 
     public function destroySession(): void;
 

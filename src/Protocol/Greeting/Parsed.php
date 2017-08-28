@@ -13,9 +13,6 @@ final class Parsed implements Greeting
     /** @const int */
     private const MIN_SIZE = self::SIZE - 1;
 
-    /** @const int */
-    private const SCRAMBLE_LENGTH = 20;
-
     /** @var string */
     private $server;
 
@@ -59,7 +56,7 @@ final class Parsed implements Greeting
         $decodedSalt = \base64_decode($encodedSalt, true);
 
         if (false !== $decodedSalt) {
-            return \substr($decodedSalt, 0, self::SCRAMBLE_LENGTH);
+            return $decodedSalt;
         }
 
         throw GreetingException::unableDecodeSalt($encodedSalt);

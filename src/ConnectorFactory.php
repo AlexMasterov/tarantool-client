@@ -6,18 +6,17 @@ namespace Tarantool;
 use DateInterval;
 use InvalidArgumentException;
 use Tarantool\Connector;
-use Tarantool\Connector\Socket\{
-    StreamFactory,
-    StreamOptions
-};
 use Tarantool\Connector\{
     Automatic,
     Connection,
     Connection\AutomaticConnection,
     Connection\StreamSocket,
-    MessagePack\Pure,
-    RetryIfFailedConnector
+    RetryIfFailedConnector,
+    Sensor\Standart,
+    Socket\StreamFactory,
+    Socket\StreamOptions
 };
+use Tarantool\Protocol\MessagePack\Pure;
 
 final class ConnectorFactory
 {
@@ -63,7 +62,11 @@ final class ConnectorFactory
 
         $options = self::streamOptions($query);
 
-        $connection = new StreamSocket($url, new StreamFactory($options));
+        $connection = new StreamSocket(
+            $url,
+            new StreamFactory($options),
+            new Standart()
+        );
 
         $factory = new self($connection);
 
@@ -85,7 +88,8 @@ final class ConnectorFactory
                 $this->connection,
                 new DateInterval($this->reconnectAfter)
             ),
-            new Pure()
+            new Pure(),
+            new Standart()
         );
 
         if ($this->reconnectMax > 0) {

@@ -7,7 +7,8 @@ use PHPUnit\Framework\TestCase;
 use Tarantool\Protocol\{
     MessagePack\MessagePackException,
     MessagePack\Pure,
-    Request
+    Request,
+    Response
 };
 use Tarantool\TestSuite\Protocol\FakeRequest;
 
@@ -114,7 +115,7 @@ final class PureTest extends TestCase
 
         // Verify
         self::assertSame($expectedSync, $header[Request::SYNC]);
-        self::assertSame($expectedData, $body[Request::DATA] ?? null);
+        self::assertSame($expectedData, $body[Response::DATA] ?? null);
     }
 
     public function unpackedData()

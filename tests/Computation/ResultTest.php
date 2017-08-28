@@ -9,7 +9,10 @@ use Tarantool\Computation\{
     Result\Failure,
     Result\Success
 };
-use Tarantool\TestSuite\Computation\MonadLaws;
+use Tarantool\TestSuite\Computation\{
+    FunctorLaws,
+    MonadLaws
+};
 use Throwable;
 
 final class ResultTest extends TestCase
@@ -54,6 +57,37 @@ final class ResultTest extends TestCase
 
         // Execute
         $itObeys = MonadLaws::associativity($of, $bind, $bind2);
+
+        // Verify
+        self::assertTrue($itObeys);
+    }
+
+    /** @test */
+    public function it_should_obey_functor_laws()
+    {
+        // Stub
+        $of = $this->of(42);
+        $map = function ($x) {
+            return $x;
+        };
+
+        // Execute
+        $itObeys = FunctorLaws::identity($of, $map);
+
+        // Verify
+        self::assertTrue($itObeys);
+
+        // Stub
+        $of = $this->of(42);
+        $map = function ($x) {
+            return 2 * $x;
+        };
+        $map2 = function ($x) {
+            return $x + 1;
+        };
+
+        // Execute
+        $itObeys = FunctorLaws::composition($of, $map, $map2);
 
         // Verify
         self::assertTrue($itObeys);

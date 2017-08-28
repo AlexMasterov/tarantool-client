@@ -39,7 +39,7 @@ final class Parsed implements Greeting
         return $this->salt;
     }
 
-    private function parseServer(string $greeting)
+    private function parseServer(string $greeting): string
     {
         $server = \substr($greeting, 0, self::SERVER_LENGTH);
 

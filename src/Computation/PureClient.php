@@ -20,11 +20,11 @@ final class PureClient implements Client
         $this->decoratedClient = $client;
     }
 
-    public function request(Command $command): Response
+    public function request(Request $request): Response
     {
-        return Result::of($command)
-            ->map(function ($command) {
-                return $this->decoratedClient->request($command);
+        return Result::of($request)
+            ->map(function ($request) {
+                return $this->decoratedClient->request($request);
             });
     }
 }

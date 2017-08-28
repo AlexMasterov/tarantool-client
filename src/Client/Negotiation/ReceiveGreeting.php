@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Tarantool\Client\Negotiation;
 
-use Tarantool\Client;
-use Tarantool\Client\{
-    Negotiation,
-    Protocol\Greeting\Parsed
+use Tarantool\Protocol\Greeting\Parsed;
+use Tarantool\{
+    Client,
+    Client\Negotiation
 };
 
 final class ReceiveGreeting implements Negotiation

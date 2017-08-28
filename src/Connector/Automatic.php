@@ -3,15 +3,16 @@ declare(strict_types=1);
 
 namespace Tarantool\Connector;
 
+use Closure;
 use Tarantool\Connector\{
     Connection,
-    MessagePack,
-    Request,
     Sensor
 };
 use Tarantool\{
     Connector,
-    Protocol\Greeting
+    Protocol\Greeting,
+    Protocol\MessagePack,
+    Protocol\Request
 };
 use function Tarantool\Protocol\unpack_length;
 

@@ -8,15 +8,15 @@ use Tarantool\TarantoolException;
 
 final class GreetingException extends RuntimeException implements TarantoolException
 {
-    public const INVALID_LENGTH = 1;
+    public const INVALID_SIZE = 1;
     public const UNABLE_RECOGNIZE_SERVER = 2;
     public const UNABLE_DECODE_SALT = 3;
 
     public static function invalidLength(): GreetingException
     {
         return new static(
-            'Invalid length of a text greeting message',
-            self::INVALID_LENGTH
+            'Invalid size of a text greeting message',
+            self::INVALID_SIZE
         );
     }
 

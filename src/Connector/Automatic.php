@@ -3,16 +3,15 @@ declare(strict_types=1);
 
 namespace Tarantool\Connector;
 
-use Tarantool\Connector;
 use Tarantool\Connector\{
     Connection,
     MessagePack,
     Request,
     Sensor
 };
-use const Tarantool\Protocol\{
-    GREETING_SIZE,
-    PACKET_LENGTH_BYTES
+use Tarantool\{
+    Connector,
+    Protocol\Greeting
 };
 use function Tarantool\Protocol\unpack_length;
 
@@ -38,7 +37,7 @@ final class Automatic implements Connector
 
         $this->connection->on('open', function () {
             $this->on('connect', function () {
-                $greeting = $this->connection->receive(GREETING_SIZE);
+                $greeting = $this->connection->receive(Greeting::SIZE);
                 $this->sensor->emit('greeting', $greeting);
             });
             $this->sensor->emit('connect');

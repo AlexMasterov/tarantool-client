@@ -11,7 +11,7 @@ use Tarantool\Protocol\{
 final class Parsed implements Greeting
 {
     /** @const int */
-    private const MIN_LENGTH = self::LENGTH - 1;
+    private const MIN_SIZE = self::SIZE - 1;
 
     /** @var string */
     private $server;
@@ -21,8 +21,8 @@ final class Parsed implements Greeting
 
     public function __construct(string $greeting)
     {
-        if (!isset($greeting[self::MIN_LENGTH])) {
-            throw GreetingException::invalidLength();
+        if (!isset($greeting[self::MIN_SIZE])) {
+            throw GreetingException::invalidSize();
         }
 
         $this->server = $this->parseServer($greeting);

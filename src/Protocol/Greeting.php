@@ -5,7 +5,7 @@ namespace Tarantool\Protocol;
 
 interface Greeting
 {
-    public const LENGTH = 128;
+    public const SIZE = 128;
     public const SERVER_LENGTH = 64;
     public const SALT_LENGTH = 44;
 

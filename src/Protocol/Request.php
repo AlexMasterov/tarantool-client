@@ -16,6 +16,7 @@ interface Request
     public const EVALUATE = 8;
     public const UPSERT = 9;
     public const CALL = 10;
+    public const EXECUTE = 11;
 
     public const PING = 64;
     public const JOIN = 65;
@@ -45,8 +46,8 @@ interface Request
     public const EXPRESSION = 0x27;
     public const OPERATIONS = 0x28;
 
-    public const DATA = 0x30;
-    public const ERROR = 0x31;
+    public const SQL_TEXT = 0x40;
+    public const SQL_BIND = 0x41;
 
     public function header(): array;
 

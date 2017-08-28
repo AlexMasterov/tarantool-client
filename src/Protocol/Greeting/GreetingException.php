@@ -12,7 +12,7 @@ final class GreetingException extends RuntimeException implements TarantoolExcep
     public const UNABLE_RECOGNIZE_SERVER = 2;
     public const UNABLE_DECODE_SALT = 3;
 
-    public static function invalidLength(): GreetingException
+    public static function invalidSize(): GreetingException
     {
         return new static(
             'Invalid size of a text greeting message',

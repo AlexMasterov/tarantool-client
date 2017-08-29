@@ -9,7 +9,7 @@ use Tarantool\Client\{
 };
 use Tarantool\{
     Client,
-    ConnectorFactory
+    Connector\Factory as ConnectorFactory
 };
 
 final class ClientFactory

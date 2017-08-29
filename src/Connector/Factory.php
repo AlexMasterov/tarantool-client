@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tarantool;
+namespace Tarantool\Connector;
 
 use DateInterval;
 use InvalidArgumentException;
@@ -18,7 +18,7 @@ use Tarantool\Connector\{
 };
 use Tarantool\Protocol\MessagePack\Pure;
 
-final class ConnectorFactory
+final class Factory
 {
     /** @var Connection */
     private $connection;

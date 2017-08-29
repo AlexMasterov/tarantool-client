@@ -33,5 +33,6 @@ final class SyncRequestTest extends TestCase
         // Verify
         self::assertSame($header, $request->header());
         self::assertSame($body, $request->body());
+        self::assertSame($value, $request->sync());
     }
 }

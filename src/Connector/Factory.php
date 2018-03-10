@@ -12,11 +12,11 @@ use Tarantool\Connector\{
     Connection\AutomaticConnection,
     Connection\StreamSocket,
     RetryIfFailedConnector,
-    Sensor\Standart,
+    Sensor\Standart as StandartSensor,
     Socket\StreamFactory,
     Socket\StreamOptions
 };
-use Tarantool\Protocol\MessagePack\Pure;
+use Tarantool\Protocol\MessagePack\Standart as StandartPacker;
 
 final class Factory
 {
@@ -54,7 +54,7 @@ final class Factory
         }
 
         $url = "{$scheme}://{$host}";
-        static $query = [];
+        $query = [];
 
         if (isset($components['query'])) {
             \parse_str($components['query'], $query);
@@ -65,7 +65,7 @@ final class Factory
         $connection = new StreamSocket(
             $url,
             new StreamFactory($options),
-            new Standart()
+            new StandartSensor()
         );
 
         $factory = new self($connection);
@@ -88,8 +88,8 @@ final class Factory
                 $this->connection,
                 new DateInterval($this->reconnectAfter)
             ),
-            new Pure(),
-            new Standart()
+            new StandartPacker(),
+            new StandartSensor()
         );
 
         if ($this->reconnectMax > 0) {

@@ -31,12 +31,11 @@ final class Pure implements MessagePack
 
     public function pack(Request $request): string
     {
-        $data = $this->packer->packMap($request->header());
-        if (!empty($request->body())) {
-            $data .= $this->packer->packMap($request->body());
-        }
+        $header = $this->encoder->encodeMap($request->header());
+        $body = $this->encoder->encodeMap($request->body());
 
-        $length = $this->packer->packInt(strlen($data));
+        $data = "${header}${body}";
+        $length = $this->encoder->encodeInt(strlen($data));
 
         return "${length}${data}";
     }

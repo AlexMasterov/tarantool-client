@@ -28,11 +28,10 @@ final class Standart implements MessagePack
 
     public function pack(Request $request): string
     {
-        $data = $this->encoder->encodeMap($request->header());
-        if (!empty($request->body())) {
-            $data .= $this->encoder->encodeMap($request->body());
-        }
+        $header = $this->encoder->encodeMap($request->header());
+        $body = $this->encoder->encodeMap($request->body());
 
+        $data = "${header}${body}";
         $length = $this->encoder->encodeInt(strlen($data));
 
         return "${length}${data}";

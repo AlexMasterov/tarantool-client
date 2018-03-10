@@ -9,5 +9,5 @@ interface MessagePack
 {
     public function pack(Request $request): string;
 
-    public function unpack(string $data): array;
+    public function unpack(string $data);
 }

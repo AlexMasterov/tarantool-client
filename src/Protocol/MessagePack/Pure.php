@@ -5,62 +5,44 @@ namespace Tarantool\Protocol\MessagePack;
 
 use MessagePack\{
     BufferUnpacker,
-    Packer as MessagePackPacker
+    Packer
 };
 use Tarantool\Protocol\{
     MessagePack,
-    MessagePack\CanMemoizePack,
-    MessagePack\MessagePackException,
     Request
 };
-use function Tarantool\Protocol\pack_length;
+use function strlen;
 
 final class Pure implements MessagePack
 {
-    use CanMemoizePack;
-
-    /** @var MessagePackPacker */
+    /** @var Packer */
     private $packer;
 
     /** @var BufferUnpacker */
-    private $bufferUnpacker;
-
-    /** @var CanMemoizePack */
-    private $memoizedPack;
+    private $unpacker;
 
     public function __construct(
-        MessagePackPacker $packer = null,
+        Packer $packer = null,
         BufferUnpacker $bufferUnpacker = null
     ) {
-        $this->packer = $packer ?? new MessagePackPacker();
-        $this->bufferUnpacker = $bufferUnpacker ?? new BufferUnpacker();
-
-        $this->memoizedPack = $this->memoizePack(function ($request) {
-            $data = $this->packer->packMap($request->header());
-            if (!empty($request->body())) {
-                $data .= $this->packer->packMap($request->body());
-            }
-
-            $length = pack_length(\strlen($data));
-
-            return "{$length}{$data}";
-        });
+        $this->packer = $packer ?? new Packer(Packer::FORCE_STR);
+        $this->unpacker = $bufferUnpacker ?? new BufferUnpacker();
     }
 
     public function pack(Request $request): string
     {
-        return ($this->memoizedPack)($request);
-    }
-
-    public function unpack(string $data): array
-    {
-        $data = $this->bufferUnpacker->reset($data)
-            ->tryUnpack();
-
-        if (2 === \count($data)) {
-            return $data;
+        $data = $this->packer->packMap($request->header());
+        if (!empty($request->body())) {
+            $data .= $this->packer->packMap($request->body());
         }
 
-        throw MessagePackException::unableUnpack();
+        $length = $this->packer->packInt(strlen($data));
+
+        return "${length}${data}";
+    }
+
+    public function unpack(string $data)
+    {
+        return $this->unpacker->reset($data)->unpack();
     }
 }

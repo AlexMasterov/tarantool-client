@@ -14,7 +14,6 @@ use Tarantool\{
     Protocol\MessagePack,
     Protocol\Request
 };
-use function Tarantool\Protocol\unpack_length;
 
 final class Automatic implements Connector
 {
@@ -68,8 +67,9 @@ final class Automatic implements Connector
         $this->connection->send($packed);
 
         $binary = $this->connection->receive(Request::PACKET_LENGTH_BYTES);
-        $binary = $this->connection->receive(unpack_length($binary));
+        $unpacked = $this->packer->unpack($binary);
 
+        $binary = $this->connection->receive($unpacked);
         $unpacked = $this->packer->unpack($binary);
 
         return $unpacked;

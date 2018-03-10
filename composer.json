@@ -37,7 +37,8 @@
     }
   },
   "require": {
-    "php": "7.1 - 7.3"
+    "php": "7.2 - 7.3",
+    "alexmasterov/msgpack": "dev-master"
   },
   "require-dev": {
     "rybakit/msgpack": "^0.2"
